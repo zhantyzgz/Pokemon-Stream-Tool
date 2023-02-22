@@ -1,6 +1,7 @@
 import { getCharacterList } from '../File System.mjs';
 import { stPath } from '../Globals.mjs';
 import { FinderSelect } from './Finder Select.mjs';
+const PkmnImg = require('@pkmn/img');
 
 class PokeFinder extends FinderSelect {
 
@@ -13,26 +14,34 @@ class PokeFinder extends FinderSelect {
     /** Fills the character list with each folder on the Characters folder */
     async loadCharacters() {
 
-        // create a list with folder names on charPath
+        // create a list with all Pokémon of the given generation
         const pokemonList = await getCharacterList();
 
         // add entries to the character list
-        for (let i = 0; i < pokemonList.length; i++) {
-
+        // pokemonList is a Species object, can iterate to get a Specie object.
+        // NatDex order. If we prefer alphabetical, we can use Array.from(pokemonList).sort().
+        for(let pokemon of pokemonList){
             // this will be the div to click
             const newDiv = document.createElement('div');
             newDiv.className = "finderEntry";
-            newDiv.addEventListener("click", () => {this.#entryClick(pokemonList[i])});
+            newDiv.addEventListener("click", () => {this.#entryClick(pokemon.name)});
 
             // character icon
             const imgIcon = document.createElement('img');
             imgIcon.className = "fIconImg";
             // this will get us the true default icon for any character
-            imgIcon.src = `${stPath.poke}/${pokemonList[i]}/Icon/Default.png`;
+            //TODO: move this to a more proper class (Pokemon), in order to have more advanced logic (different sprites depending on gen, etc).
+            let imgInfo = PkmnImg.Icons.getPokemon(pokemon);
+            // Includes fields: style, url, left, top, css: {display, width, height, imageRendering, background}.
+            // All the Pokémon icons are cropped from a single big spritesheet (pokemonicons-sheet.png).
+            //TODO: use getPokemon(name, {protocol: 'http', domain: stPath.poke}) in order to use local sprites.
+            
+            imgIcon.style = imgInfo.style; //This should do the trick
+            imgIcon.src = `${stPath.poke}/Transparent.png`; //Ugly workaround.
             
             // pokemon name
             const spanName = document.createElement('span');
-            spanName.innerHTML = pokemonList[i];
+            spanName.innerHTML = pokemon.name;
             spanName.className = "pfName";
 
             // add them to the div we created before

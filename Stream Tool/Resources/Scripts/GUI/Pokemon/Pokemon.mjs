@@ -1,5 +1,6 @@
 import { pokeFinder } from "../Finder/Pokemon Finder.mjs";
 import { stPath } from "../Globals.mjs";
+const PkmnImg = require('@pkmn/img');
 
 export class Pokemon {
 
@@ -34,10 +35,14 @@ export class Pokemon {
         // set the pokemon name and icon on the selector
         if (!name || name == "None") {
             this.pokeSel.children[1].innerHTML = "";
-            this.pokeSel.children[0].src = `${stPath.poke}/../None.png`;
+            this.pokeSel.children[0].src = `${stPath.poke}/None.png`;
         } else {
             this.pokeSel.children[1].innerHTML = name;
-            this.pokeSel.children[0].src = `${stPath.poke}/${name}/Icon/Default.png`;
+
+            let imgInfo = PkmnImg.Icons.getPokemon(name);
+            this.pokeSel.children[0].style = imgInfo.style;
+            //TODO: use getPokemon(name, {protocol: 'http', domain: stPath.poke}) in order to use local sprites.
+            this.pokeSel.children[0].src = `${stPath.poke}/Transparent.png`; //Ugly workaround.
         }
 
     }

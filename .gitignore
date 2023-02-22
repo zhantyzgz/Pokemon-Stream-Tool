@@ -2,3 +2,11 @@
 #You can also copy/symlink the sprites folder from a previous local mirror. 
 Stream Tool/Resources/Assets/play.pokemonshowdown.com
 Stream Tool/Resources/Assets/sprites
+.vscode
+
+Stream Tool/Resources/Texts/GUI Settings.json
+Stream Tool/Resources/Texts/Pokemon List.json
+
+#These two are a really bad idea, will refactor the code to avoid them. 
+Stream Tool/node_modules 
+Stream Tool/package*.json

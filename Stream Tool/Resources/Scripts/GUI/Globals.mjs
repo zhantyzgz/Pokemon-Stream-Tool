@@ -8,7 +8,7 @@ export const inside = {
 /** Paths used for all of the Stream Tool */
 const realPath = inside.electron ? __dirname : ""; // local file path if in executable
 export const stPath = {
-    poke: realPath + "/Assets/Pokemon",
+    poke: realPath + "/Assets", //The "sprites" part will be completed by @pkmn/img. //TODO: also accept ./Assets/play.pokemonshowdown.com.
     text : realPath + '/Texts',
 };
 
