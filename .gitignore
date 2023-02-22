@@ -1,0 +1,4 @@
+#Get these locally by running a `wget --mirror https://play.pokemonshowdown.com/sprites/` or the like. 
+#You can also copy/symlink the sprites folder from a previous local mirror. 
+Stream Tool/Resources/Assets/play.pokemonshowdown.com
+Stream Tool/Resources/Assets/sprites
