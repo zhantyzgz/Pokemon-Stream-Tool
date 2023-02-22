@@ -63,8 +63,7 @@ const gen5 = dexGens.get(5); //We'll hardcode it for now, for a proof-of-concept
  */
 export async function getCharacterList() {
 
-    const pokemonList2 = gen5.species;
-    return pokemonList2;
+    return gen5.species;
 
 }
 

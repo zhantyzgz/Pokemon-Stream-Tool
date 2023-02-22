@@ -1,11 +1,22 @@
 import { pokeFinder } from "../Finder/Pokemon Finder.mjs";
 import { stPath } from "../Globals.mjs";
+const PkmnData = require('@pkmn/data');
+const PkmnDex = require('@pkmn/dex');
 const PkmnImg = require('@pkmn/img');
+
+
+//TODO: evitar hardcodeo de gen 5. Singleton con la dex en uso en cada momento?
+const dexGens = new PkmnData.Generations(PkmnDex.Dex);
+const gen5 = dexGens.get(5); 
+const pokemonList = gen5.species;
 
 export class Pokemon {
 
-    constructor(el) {
+    /** @type {PkmnData.Specie?} */
+    #specie;
 
+    constructor(el) {
+        
         this.pokeSel = el.getElementsByClassName(`pokeSelector`)[0];
         this.nickInp = el.getElementsByClassName(`pokeNickName`)[0];
         this.formSel = el.getElementsByClassName(`pokeForm`)[0];
@@ -23,23 +34,36 @@ export class Pokemon {
 
     }
 
+    /**
+     * Gets Pokémon species.
+     * @returns {PkmnData.Specie?}
+     */
     getSpecies() {
-        return this.pokeSel.children[1].innerHTML;
+        return this.#specie;
     }
     /**
-     * Sets a new pokemon based on the name
-     * @param {String} name - Name of the pokemon
+     * Sets a new pokemon based on species
+     * @param {PkmnData.Specie | string} [specie] - Species of the pokemon
      */
-    setSpecies(name) {
+    setSpecies(specie) {
+        
+        if(!specie){
+            this.#specie = null;
+        } else if(specie instanceof PkmnData.Specie){
+            this.#specie = specie;
+        } else{ //string
+            this.#specie = pokemonList.get(specie);
+            console.log(this.#specie);
+        }
 
         // set the pokemon name and icon on the selector
-        if (!name || name == "None") {
+        if (!this.#specie || this.#specie == "None") {
             this.pokeSel.children[1].innerHTML = "";
             this.pokeSel.children[0].src = `${stPath.poke}/None.png`;
         } else {
-            this.pokeSel.children[1].innerHTML = name;
+            this.pokeSel.children[1].innerHTML = this.#specie; 
 
-            let imgInfo = PkmnImg.Icons.getPokemon(name);
+            let imgInfo = PkmnImg.Icons.getPokemon(this.#specie, {protocol: 'http', domain: stPath.poke});
             this.pokeSel.children[0].style = imgInfo.style;
             //TODO: use getPokemon(name, {protocol: 'http', domain: stPath.poke}) in order to use local sprites.
             this.pokeSel.children[0].src = `${stPath.poke}/Transparent.png`; //Ugly workaround.
@@ -51,27 +75,32 @@ export class Pokemon {
         return this.nickInp.value;
     }
     setNickName(name) {
-        if (name) {
-            this.nickInp.value = name;
-        } else {
-            this.nickInp.value = "";
-        }
+        this.nickInp.value = name ?? "";
     }
 
     getForm() {
-        return this.formSel.value;
+        return this.#specie?.forme;
+    }
+
+    getBaseSpecies(){
+        return this.#specie?.baseSpecies;
     }
 
     getGender() {
-        if (this.genderChk.checked) {
-            return "F"
-        } else {
-            return "M"
-        }
+        return this.#specie?.gender;
     }
 
-    getSriteImgSrc() {
-        return `../../Resources/Assets/Pokemon/${this.getSpecies()}/Sprite Anim/${this.getForm()}.gif`;
+    //TODO: set/get shinyness. Consider migrating to PokemonSet.
+
+    getSpriteImgInfo(){
+        //TODO: don't hardcode gen 5.
+        //TODO: set protocol and domain to use local sprites.
+        return PkmnImg.Sprites.getPokemon(this.#specie, {
+            gen: "gen5ani", 
+            gender: this.getGender(), 
+            shiny: this.shiny,
+            protocol: 'http', domain: stPath.poke
+        });
     }
 
 }

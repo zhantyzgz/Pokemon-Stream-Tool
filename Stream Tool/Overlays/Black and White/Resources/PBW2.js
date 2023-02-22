@@ -3,6 +3,7 @@
 let webSocket;
 
 class Pokemon {
+    //TODO: merge with generic class?
 
     constructor(el) {
 
@@ -29,8 +30,8 @@ class Pokemon {
             this.gendEl.innerHTML = "el";
         }
     }
-    setImg(src) {
-        this.imgEl.src = src;
+    setImgInfo(imgInfo) {
+        this.imgEl.src = imgInfo.url;
     }
 
     hidePoke() {
@@ -56,7 +57,7 @@ startWebsocket();
 function startWebsocket() {
 
 	// change this to the IP of where the GUI is being used for remote control
-	webSocket = new WebSocket("ws://localhost:8080?id=gameData");
+	webSocket = new WebSocket("ws://localhost:4040?id=gameData");
 	webSocket.onopen = () => { // if it connects successfully
 		// everything will update everytime we get data from the server (the GUI)
 		webSocket.onmessage = function (event) {
@@ -91,7 +92,7 @@ async function updateData(data) {
 
         // set species
         if (data.playerPokemons[i].species) {
-            pokemons[i].setSpecies(data.playerPokemons[i].species);
+            pokemons[i].setSpecies(data.playerPokemons[i].baseSpecies);
             pokemons[i].showPoke();
         } else {
             pokemons[i].hidePoke();
@@ -104,7 +105,7 @@ async function updateData(data) {
         pokemons[i].setGender(data.playerPokemons[i].gender);
 
         // set image
-        pokemons[i].setImg(data.playerPokemons[i].img);
+        pokemons[i].setImgInfo(data.playerPokemons[i].imgInfo);
         
     }
 

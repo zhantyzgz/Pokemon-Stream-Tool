@@ -35,10 +35,12 @@ export async function writeScoreboard() {
 
         // finally, add it to the main json
         scoreboardJson.playerPokemons.push({
-            species : pokemons[i].getSpecies(),
+            species: pokemons[i].getSpecies()?.name,
+            forme: pokemons[i].getForm(), 
+            baseSpecies: pokemons[i].getBaseSpecies(), //Sometimes we just need the base forme name; avoids things like "Giratina-Origin".
             nickName : pokemons[i].getNickName(),
             gender : pokemons[i].getGender(),
-            img : pokemons[i].getSriteImgSrc()
+            imgInfo : pokemons[i].getSpriteImgInfo()
         })
 
     }
