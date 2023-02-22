@@ -53,7 +53,6 @@ export class Pokemon {
             this.#specie = specie;
         } else{ //string
             this.#specie = pokemonList.get(specie);
-            console.log(this.#specie);
         }
 
         // set the pokemon name and icon on the selector
@@ -94,13 +93,14 @@ export class Pokemon {
 
     getSpriteImgInfo(){
         //TODO: don't hardcode gen 5.
-        //TODO: set protocol and domain to use local sprites.
-        return PkmnImg.Sprites.getPokemon(this.#specie, {
+        let result = PkmnImg.Sprites.getPokemon(this.#specie, {
             gen: "gen5ani", 
             gender: this.getGender(), 
             shiny: this.shiny,
             protocol: 'http', domain: stPath.poke
-        });
+        })
+        result.url = result.url.replace("http://", "");
+        return result;
     }
 
 }
