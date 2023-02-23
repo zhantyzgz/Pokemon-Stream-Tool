@@ -6,12 +6,6 @@
   "repository": "https://github.com/Readek/Pokemon-Stream-Tool",
   "author": "Readek",
   "license": "MIT",
-  "devDependencies": {
-    "@pkmn/dex-types": "^0.7.22",
-    "@pkmn/types": "^3.0.0",
-    "electron": "^22.0.0",
-    "electron-builder": "^23.6.0"
-  },
   "scripts": {
     "start": "electron .",
     "dist": "electron-builder"
@@ -29,6 +23,12 @@
     "@pkmn/data": "^0.7.22",
     "@pkmn/dex": "^0.7.22",
     "@pkmn/img": "^0.2.7",
-    "ws": "^8.8.1"
+    "ws": "^8.12.1"
+  },
+  "devDependencies": {
+    "@pkmn/dex-types": "^0.7.22",
+    "@pkmn/types": "^3.0.0",
+    "electron": "^23.1.1",
+    "electron-builder": "^23.6.0"
   }
 }
