@@ -1,7 +1,6 @@
 import { getCharacterList } from '../File System.mjs';
 import { stPath } from '../Globals.mjs';
 import { FinderSelect } from './Finder Select.mjs';
-const PkmnImg = require('@pkmn/img');
 
 class PokeFinder extends FinderSelect {
 
@@ -31,10 +30,11 @@ class PokeFinder extends FinderSelect {
             imgIcon.className = "fIconImg";
             // this will get us the true default icon for any character
             //TODO: move this to a more proper class (Pokemon), in order to have more advanced logic (different sprites depending on gen, etc).
-            let imgInfo = PkmnImg.Icons.getPokemon(pokemon);
+            let imgInfo = pkmn.img.Icons.getPokemon(pokemon, {protocol: 'http', domain: stPath.poke});
+            imgInfo.style = imgInfo.style.replace("http://", "");
             // Includes fields: style, url, left, top, css: {display, width, height, imageRendering, background}.
             // All the Pokémon icons are cropped from a single big spritesheet (pokemonicons-sheet.png).
-            //TODO: use getPokemon(name, {protocol: 'http', domain: stPath.poke}) in order to use local sprites.
+            //TODO: Fix the view inside electron and remove the ugly workaround.
             
             imgIcon.style = imgInfo.style; //This should do the trick
             imgIcon.src = `${stPath.poke}/Transparent.png`; //Ugly workaround.

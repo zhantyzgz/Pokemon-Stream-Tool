@@ -1,18 +1,15 @@
 import { pokeFinder } from "../Finder/Pokemon Finder.mjs";
 import { stPath } from "../Globals.mjs";
-const PkmnData = require('@pkmn/data');
-const PkmnDex = require('@pkmn/dex');
-const PkmnImg = require('@pkmn/img');
 
 
 //TODO: evitar hardcodeo de gen 5. Singleton con la dex en uso en cada momento?
-const dexGens = new PkmnData.Generations(PkmnDex.Dex);
+const dexGens = new pkmn.data.Generations(pkmn.dex.Dex);
 const gen5 = dexGens.get(5); 
 const pokemonList = gen5.species;
 
 export class Pokemon {
 
-    /** @type {PkmnData.Specie?} */
+    /** @type {pkmn.data.Specie?} */
     #specie;
 
     constructor(el) {
@@ -36,20 +33,20 @@ export class Pokemon {
 
     /**
      * Gets Pokémon species.
-     * @returns {PkmnData.Specie?}
+     * @returns {pkmn.data.Specie?}
      */
     getSpecies() {
         return this.#specie;
     }
     /**
      * Sets a new pokemon based on species
-     * @param {PkmnData.Specie | string} [specie] - Species of the pokemon
+     * @param {pkmn.data.Specie | string} [specie] - Species of the pokemon
      */
     setSpecies(specie) {
         
         if(!specie){
             this.#specie = null;
-        } else if(specie instanceof PkmnData.Specie){
+        } else if(specie instanceof pkmn.data.Specie){
             this.#specie = specie;
         } else{ //string
             this.#specie = pokemonList.get(specie);
@@ -62,9 +59,10 @@ export class Pokemon {
         } else {
             this.pokeSel.children[1].innerHTML = this.#specie; 
 
-            let imgInfo = PkmnImg.Icons.getPokemon(this.#specie, {protocol: 'http', domain: stPath.poke});
+            let imgInfo = pkmn.img.Icons.getPokemon(this.#specie, {protocol: 'http', domain: stPath.poke});
+            imgInfo.style = imgInfo.style.replace("http://", "");
             this.pokeSel.children[0].style = imgInfo.style;
-            //TODO: use getPokemon(name, {protocol: 'http', domain: stPath.poke}) in order to use local sprites.
+            //TODO: Fix the view inside electron and remove the ugly workaround.
             this.pokeSel.children[0].src = `${stPath.poke}/Transparent.png`; //Ugly workaround.
         }
 
@@ -93,7 +91,7 @@ export class Pokemon {
 
     getSpriteImgInfo(){
         //TODO: don't hardcode gen 5.
-        let result = PkmnImg.Sprites.getPokemon(this.#specie, {
+        let result = pkmn.img.Sprites.getPokemon(this.#specie, {
             gen: "gen5ani", 
             gender: this.getGender(), 
             shiny: this.shiny,

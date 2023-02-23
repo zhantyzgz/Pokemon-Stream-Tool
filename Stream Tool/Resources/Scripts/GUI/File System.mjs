@@ -52,10 +52,8 @@ export async function fileExists(filePath) {
 
 
 //TODO: Move this method out of FileSystem and into its own class.
-const PkmnDex = require('@pkmn/dex');
-const PkmnData = require('@pkmn/data');
 
-const dexGens = new PkmnData.Generations(PkmnDex.Dex);
+const dexGens = new pkmn.data.Generations(pkmn.dex.Dex);
 const gen5 = dexGens.get(5); //We'll hardcode it for now, for a proof-of-concept.
 /**
  * Generates a character list depending on the Pokémon available on that generation.

@@ -9,7 +9,9 @@
   "scripts": {
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "start": "cd \"Stream Tool\" && \"./Poke Stream Tool.AppImage\""
+    "start": "cd \"Stream Tool\" && \"./Poke Stream Tool.AppImage\"",
+    "start:debug": "cd \"Stream Tool\" && \"./Poke Stream Tool.AppImage\" --inspect=5858",
+    "postinstall": "electron-builder install-app-deps"
   },
   "build": {
     "appId": "poke.st.gui",
@@ -27,12 +29,14 @@
     "@pkmn/data": "^0.7.22",
     "@pkmn/dex": "^0.7.22",
     "@pkmn/img": "^0.2.7",
+    "source-map-support": "^0.5.21",
     "ws": "^8.12.1"
   },
   "devDependencies": {
     "@pkmn/dex-types": "^0.7.22",
     "@pkmn/types": "^3.0.0",
     "electron": "^23.1.1",
-    "electron-builder": "^23.6.0"
+    "electron-builder": "^23.6.0",
+    "webpack": "^5.75.0"
   }
 }
