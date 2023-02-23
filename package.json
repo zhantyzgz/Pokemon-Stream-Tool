@@ -29,6 +29,7 @@
     "@pkmn/data": "^0.7.22",
     "@pkmn/dex": "^0.7.22",
     "@pkmn/img": "^0.2.7",
+    "mousetrap": "^1.6.5",
     "source-map-support": "^0.5.21",
     "ws": "^8.12.1"
   },

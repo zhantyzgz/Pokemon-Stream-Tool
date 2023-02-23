@@ -28,6 +28,7 @@ async function init() {
 
 
     // initialize our pokemon class
+    /** @type {HTMLCollection} */
     const pokeEls = document.getElementsByClassName("pokemonDiv");
     for (let i = 0; i < pokeEls.length; i++) {
         pokemons.push(new Pokemon(pokeEls[i]))

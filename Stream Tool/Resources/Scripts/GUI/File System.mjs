@@ -53,11 +53,12 @@ export async function fileExists(filePath) {
 
 //TODO: Move this method out of FileSystem and into its own class.
 
+/** @type {import("@pkmn/data").Generations} */
 const dexGens = new pkmn.data.Generations(pkmn.dex.Dex);
 const gen5 = dexGens.get(5); //We'll hardcode it for now, for a proof-of-concept.
 /**
  * Generates a character list depending on the Pokémon available on that generation.
- * @returns Species object (NOT an array, but an iterable).
+ * @returns {import("@pkmn/data").Species} Species object (NOT an array, but an iterable).
  */
 export async function getCharacterList() {
 
